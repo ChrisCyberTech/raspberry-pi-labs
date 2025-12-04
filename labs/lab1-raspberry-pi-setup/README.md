@@ -1,69 +1,195 @@
-# 🥧 Raspberry Pi Labs
+# Lab 1 — Raspberry Pi Initial Setup & Secure SSH Configuration
 
-Hands-on hardware labs for networking, DNS filtering, file sharing, and home-lab infrastructure using a Raspberry Pi 4 (8GB).
-
-This folder contains all Raspberry Pi–related labs, including Pi-hole setup, remote access, and file server configuration.
+This lab prepares the Raspberry Pi for all future projects in the Raspberry Pi Labs series.  
+You will flash Raspberry Pi OS, complete first-boot setup, secure the device, enable firewall protection, and configure static networking.
 
 ---
 
-## 📌 Lab 1 — Raspberry Pi Setup + Pi-hole Installation
-
-**Objectives:**
+## 📌 Lab Objectives
 - Flash Raspberry Pi OS using Raspberry Pi Imager  
-- Configure hostname, OS user, and Wi-Fi  
-- Enable SSH for remote management  
-- Install Pi-hole as a network-wide DNS filter  
-- Verify DNS blocking and test on macOS/iPhone  
-- Capture screenshots for GitHub documentation  
-
-📁 **Lab folder:**  
-[`./lab1-pi-setup-and-pihole`](./lab1-pi-setup-and-pihole/README.md)
+- Configure localization and first-boot preferences  
+- Perform system updates  
+- Enable SSH and complete key-based authentication setup  
+- Assign a static IP address  
+- Enable UFW firewall  
+- Apply basic SSH hardening  
 
 ---
 
-## 📁 Folder Structure
+## 🧰 Tools & Technologies
+- **Raspberry Pi 4 (8GB)**
+- **Raspberry Pi OS (64-bit)**
+- **macOS Terminal**
+- **Raspberry Pi Imager**
+- **SSH (OpenSSH)**
+- **UFW Firewall**
+- **Netgear R8000P Router**
 
-raspberry-pi-labs/
+---
+
+## 🗂 Folder Structure (Recommended)
+
+lab1-raspberry-pi-setup/
 │
-├── lab1-pi-setup-and-pihole/
-│ ├── README.md
-│ └── screenshots/
-│ ├── RPI-L1-01_RaspberryPiImager-Home.png
-│ ├── RPI-L1-02_OS-Selection.png
-│ ├── RPI-L1-03_Storage-Selection.png
-│ ├── RPI-L1-04_Settings-Overlay.png
-│ ├── RPI-L1-05_Flashing-Progress.png
-│ ├── RPI-L1-06_Write-Success.png
-│ ├── RPI-L1-07_FirstBoot-Screen.png
-│ ├── RPI-L1-08_PiHole-Install-CLI.png
-│ ├── RPI-L1-09_PiHole-WebUI-Login.png
-│ └── (your hardware pictures later)
+├── README.md
+└── screenshots/
+├── Lab1-01_DeviceSelection.png
+├── Lab1-02_OSSelection.png
+├── Lab1-03_Localisation.png
+├── Lab1-04_WriteVerification.png
+├── Lab1-05_WriteComplete.png
+├── RPi1-05_Mac_ssh_FirstLogin.png
+├── RPi1-06_Terminal_System_Update.png
+├── RPi1-07_Static_IP_Config.png
+├── RPi1-08_Firewall_Enabled.png
+├── RPi1-09_Mac_SSH-Key-Installed.png
+└── RPi1-10_SSH-Config_Hardening.png
 
 yaml
 Copy code
 
 ---
 
-## 📚 Upcoming Labs
+## 🧪 Step-by-Step Summary
 
-### **Lab 2 — Raspberry Pi File Server (Samba / SMB)**
-- Create shared network folders  
-- Add read/write permissions  
-- Connect from macOS Finder  
-- Test large file transfers  
-- Validate reliability & speed  
+### **1️⃣ Flash Raspberry Pi OS**
+Using Raspberry Pi Imager, select:
+- **Device:** Raspberry Pi 4
+- **OS:** Raspberry Pi OS (64-bit)
+- Configure:
+  - Hostname  
+  - Username/password  
+  - Wi-Fi  
+  - Locale  
+  - SSH enabled  
 
-### **Lab 3 — Pi-hole Advanced Filtering**
-- Block streaming service ad domains  
-- Add custom blocklists  
-- Query log investigation  
-- Local DNS overrides  
+📸 **Screenshot:**  
+`Lab1-01_DeviceSelection.png`
+
+---
+
+### **2️⃣ OS Selection**
+Choose Raspberry Pi OS 64-bit.
+
+📸 **Screenshot:**  
+`Lab1-02_OSSelection.png`
 
 ---
 
-## ✅ Status
-- **Lab 1: In progress**
-- **Lab 2: Planned**
-- **Lab 3: Planned**
+### **3️⃣ Localization Configuration**
+Set:
+- Timezone  
+- Keyboard layout  
+- Language  
+
+📸 **Screenshot:**  
+`Lab1-03_Localisation.png`
 
 ---
+
+### **4️⃣ OS Writing & Verification**
+Imager writes the OS and verifies your SD card.
+
+📸 **Screenshots:**
+- `Lab1-04_WriteVerification.png`
+- `Lab1-05_WriteComplete.png`
+
+---
+
+### **5️⃣ First Login via SSH (Mac)**
+Connect to Pi using SSH:  
+ssh pi@<PI-IP>
+
+yaml
+Copy code
+
+📸 **Screenshot:**  
+`RPi1-05_Mac_ssh_FirstLogin.png`
+
+---
+
+### **6️⃣ System Update**
+After logging in:
+sudo apt update && sudo apt upgrade -y
+
+yaml
+Copy code
+
+📸 **Screenshot:**  
+`RPi1-06_Terminal_System_Update.png`
+
+---
+
+### **7️⃣ Configure Static IP**
+Edit:
+sudo nano /etc/dhcpcd.conf
+
+makefile
+Copy code
+Add:
+interface wlan0
+static ip_address=192.168.1.X/24
+static routers=192.168.1.1
+static domain_name_servers=1.1.1.1
+
+yaml
+Copy code
+
+📸 **Screenshot:**  
+`RPi1-07_Static_IP_Config.png`
+
+---
+
+### **8️⃣ Enable Firewall (UFW)**
+Commands:
+sudo apt install ufw -y
+sudo ufw allow ssh
+sudo ufw enable
+
+yaml
+Copy code
+
+📸 **Screenshot:**  
+`RPi1-08_Firewall_Enabled.png`
+
+---
+
+### **9️⃣ Install SSH Key (Mac → Pi)**
+Generate key (if needed):
+ssh-keygen -t ed25519
+
+powershell
+Copy code
+Copy key:
+ssh-copy-id pi@<PI-IP>
+
+yaml
+Copy code
+
+📸 **Screenshot:**  
+`RPi1-09_Mac_SSH-Key-Installed.png`
+
+---
+
+### 🔟 SSH Hardening
+Disable password login:
+sudo nano /etc/ssh/sshd_config
+
+javascript
+Copy code
+
+Set:
+PasswordAuthentication no
+PermitRootLogin no
+
+yaml
+Copy code
+
+Restart SSH:
+sudo systemctl restart ssh
+
+yaml
+Copy code
+
+📸 **Screenshot:**  
+`RPi1-10_SSH-Config_Hardening.png`
