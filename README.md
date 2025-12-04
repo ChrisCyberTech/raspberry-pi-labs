@@ -1,71 +1,64 @@
-# 🍓 Raspberry Pi Labs
+# 📘 Labs | Road Map (In Progress)
 
-A collection of hands-on Raspberry Pi labs focusing on networking, DNS filtering (Pi-hole), secure remote access, file sharing, firewall hardening, and home-lab infrastructure.  
-Each lab builds on previous ones to create a secure, functional, and scalable Raspberry Pi environment.
+This roadmap outlines completed, active, and future Raspberry Pi–based IT labs designed to demonstrate hands-on skills across **networking, system administration, cybersecurity, automation, and home-lab engineering**.
 
----
-
-## 📚 Lab Index
-
-1. 🔧 **Lab 1 – Raspberry Pi Setup & Secure SSH Configuration**  
-   Initial Raspberry Pi OS setup, SSH access, updates, static IP, and system hardening.  
-   ➜ [Open Lab 1](./labs/lab1-raspberry-pi-setup/README.md)
-
-2. 📁 **Lab 2 – Raspberry Pi File Server (Samba)**  
-   Configure network-based file sharing using Samba with proper permissions and SMB access.  
-   ➜ [Open Lab 2](./labs/lab2-file-server-samba/README.md)
-
-3. 🔐 **Lab 3 – Firewall & System Hardening**  
-   Apply UFW firewall rules, secure ports, and verify service protections.  
-   ➜ [Open Lab 3](./labs/lab3-firewall-hardening/README.md)
-
-4. 📺 **Lab 4 – Pi-hole & Streaming Ad-Blocking Rules**  
-   Deploy Pi-hole for network-wide DNS filtering and expand lists for streaming ad-blocking.  
-   ➜ [Open Lab 4](./labs/lab4-streaming-ad-blocking/README.md)
-
-5. 🌐 **Lab 5 – Secure Remote Access (SSH)**  
-   Improve SSH security with keys, hardening, and optional remote-access configurations.  
-   ➜ [Open Lab 5](./labs/lab5-remote-access-ssh/README.md)
-
-6. 📊 **Lab 6 – System Monitoring & Health Checks**  
-   Install monitoring tools, resource dashboards, service uptime logging, and alerts.  
-   ➜ [Open Lab 6](./labs/lab6-system-monitoring/README.md)
+These labs progressively build a full ecosystem—including Pi-hole DNS filtering, file services, secure remote access, firewall hardening, and monitoring—mirroring real-world IT workflows.
 
 ---
 
-## 🏗️ Repository Structure
+## 📚 Detailed Lab Roadmap
 
-raspberry-pi-labs/
-│
-├── labs/
-│ ├── lab1-raspberry-pi-setup/
-│ ├── lab2-file-server-samba/
-│ ├── lab3-firewall-hardening/
-│ ├── lab4-streaming-ad-blocking/
-│ ├── lab5-remote-access-ssh/
-│ └── lab6-system-monitoring/
-│
-└── README.md
-
-yaml
-Copy code
+| Lab # | Title | Description |
+|-------|--------|-------------|
+| **1** | **Raspberry Pi Setup & Secure SSH Configuration** | Complete base installation of Raspberry Pi OS, perform initial OS configuration, enable SSH, secure remote access with key-based authentication, harden SSHD, configure system updates, and assign persistent static IP addressing. |
+| **2** | **Raspberry Pi File Server (Samba)** *(Next)* | Build a local network file server using Samba, create shared directories, manage UNIX/Samba users, configure access controls, and test client access from macOS and Windows. Includes directory permissions, service persistence, and troubleshooting connectivity issues. |
+| **3** | **Firewall & System Hardening** | Configure host-based firewall rules (UFW), restrict inbound/outbound traffic, block unnecessary services, enable logging, enforce rate limits, and validate rule behavior using real testing tools. Includes SSH hardening and service minimization. |
+| **4** | **Pi-hole Deployment + Streaming Ad-Blocking Rules** | Deploy a full Pi-hole DNS filtering system, configure upstream DNS providers, activate privacy modes, add curated blocklists, apply streaming-specific ad-blocking lists, update router DNS settings, and validate network-wide ad filtering. Includes static IP assignment and router MAC/DHCP alignment. |
+| **5** | **Secure Remote Access (Advanced SSH)** | Expand remote access capabilities using hardened SSH configurations such as port changes, key-only logins, fail2ban protection, intrusion monitoring, and configuration validation. Includes disaster-recovery access strategies and documented rollback procedures. |
+| **6** | **System Monitoring & Health Checks** | Install resource monitoring tools, configure Pi-hole query analytics, set up CPU/memory/disk monitoring, implement log review processes, and create health-check routines. Includes service uptime verification and alerting foundations. |
+| **7** | **Pi-hole Local DNS Services & Unbound Integration** *(Planned)* | Integrate Pi-hole with a recursive DNS resolver (Unbound), enable DNSSEC validation, configure local host overrides, implement secure DNS transports (DoH/DoT), and deploy advanced regex filtering. |
+| **8** | **Automation Through Cron & Bash Scripting** *(Planned)* | Develop automated maintenance workflows including update scripts, backup jobs, log archival, Pi-hole gravity updates, and system cleanup routines—using cron and shell scripting best practices. |
+| **9** | **Raspberry Pi NAS Expansion (Advanced File Services)** *(Planned)* | Expand the file server to support Time Machine backups, multi-user tiered permissions, drive pooling, automounts, and external USB storage configurations. Add snapshot routines and optional RAID through mdadm. |
+| **10** | **Home Lab Network Optimization & DHCP Planning** *(Planned)* | Improve network organization through DHCP reservation strategies, VLAN planning, subnet segmentation, performance tuning, router-level logging, and optimization of DNS forwarding paths. Useful for scaling a home-lab environment. |
 
 ---
 
-## 🚀 About This Project
+### ✨ Additional Future Modules (Optional Add-Ons)
 
-These labs are designed for:
-- Home-lab builders  
-- Cybersecurity students  
-- IT administrators  
-- Anyone wanting hands-on networking & Linux experience  
+- **Home VPN Gateway (WireGuard/OpenVPN)**  
+  Build a secure VPN endpoint on Raspberry Pi for encrypted remote network access.
 
-Each lab includes:
-- Clear objectives  
-- Step-by-step instructions  
-- Command references  
-- Screenshot documentation  
-- Verification checks  
-- A final working deliverable  
+- **Intrusion Detection + Log Correlation**  
+  Deploy lightweight IDS solutions and centralize system logs for event correlation.
 
-More labs, expansions, and automation scripts coming soon
+- **Backup/Restore Infrastructure**  
+  Automate Pi-hole, Samba, and system config backups using rsync and encrypted archives.
+
+---
+
+### 🏁 Status Indicators (for future addition)
+
+| Symbol | Meaning |
+|--------|---------|
+| 🟢 | Completed |
+| 🟡 | In Progress |
+| 🔴 | Planned / Not Started |
+
+---
+
+### 📌 Purpose of This Roadmap
+
+This project serves as a **portfolio showcase** for:
+
+- IT Help Desk & Support Skills  
+- System Administration Fundamentals  
+- Network Configuration  
+- Firewall & Security Hardening  
+- Linux Administration  
+- Home-Lab Infrastructure Design  
+- Documentation & Professional Workflow  
+
+Every lab includes screenshots, step-by-step write-ups, troubleshooting notes, and reproducible procedures.
+
+---
+
