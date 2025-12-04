@@ -59,18 +59,4 @@ This lab covers the complete setup of a Raspberry Pi from initial flashing to se
 
 ---
 
-## Completion
-Your Raspberry Pi is now:
-- Fully updated  
-- Secured with SSH key authentication  
-- Protected with a firewall  
-- Assigned a static IP  
-- Ready for advanced labs  
 
-You are now ready to continue with:
-- **Lab 2 — File Server (Samba)**
-- **Lab 3 — Firewall Hardening**
-- **Lab 4 — Pi-hole**
-- **Lab 5 — Remote Access**
-
----
