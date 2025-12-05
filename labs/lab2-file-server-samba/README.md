@@ -10,36 +10,6 @@ This lab configures your Raspberry Pi as a network file server using **Samba**, 
 
 ---
 
-## 📂 Repository Structure
-
-```
-lab-2-samba-file-server/
-│── README.md
-└── screenshots/
-    RPI2-01_Terminal_Update_Upgrade.png
-    RPI2-02_lsblk_List_Drives.png
-    RPI2-03_lsblk_Mounted_Drives.png
-    RPI2-04_Backup_fstab_Before_Edit.png
-    RPI2-05_Edit_fstab_With_Mount_Entries.png
-    RPI2-06_Mount_Test_Success.png
-    RPI2-07_Apply_Permissions_Primary1.png
-    RPI2-08_Apply_Permissions_Secondary_Videos.png
-    RPI2-09_Install_Samba.png
-    RPI2-10_Backup_smb_conf.png
-    RPI2-11_Edit_smb_conf_Shares.png
-    RPI2-12_Testparm_No_Errors.png
-    RPI2-13_Create_Samba_User.png
-    RPI2-14_Restart_Samba_Services.png
-    RPI2-15_Firewall_Allow_Samba_or_Skip.png
-    RPI2-16_Windows_Run_SMB_Path.png
-    RPI2-17_Windows_Enter_Network_Credentials.png
-    RPI2-18_Windows_Share_Opened.png
-    RPI2-19_macOS_Connect_To_Server.png
-    RPI2-20_macOS_Share_Mounted_Finder.png
-```
-
----
-
 # ✅ Step-by-Step Guide (Screenshots Included in Each Step)
 
 ---
@@ -51,8 +21,7 @@ sudo apt update && sudo apt upgrade -y
 ```
 
 **Screenshot:**  
-![RPI2-01](./screenshots/RPI2-01_Terminal_Update_Upgrade.png)
-
+![RPI2-01](./screenshots/PI2-01_Pi_UpdateAndUpgrade.png)
 ---
 
 # **Step 2 — Identify Attached Drives**
