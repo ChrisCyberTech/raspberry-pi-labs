@@ -1,195 +1,96 @@
-# 🏗️ Raspberry Pi Lab 2 — File Server with Samba
+# 🏗️ Raspberry Pi Lab 2 — Samba File Server (Actual Steps Performed)
 
-A complete walkthrough of configuring a Raspberry Pi 4 as a network-accessible file server using Samba.
-
----
-
-## 📌 Overview
-
-This lab configures your Raspberry Pi as a network file server using **Samba**, enabling shared folder access from Windows, macOS, and Linux.
+This lab documents the exact process used to configure a Raspberry Pi as a Samba file server, including macOS and Windows verification. All screenshots included reflect the real workflow executed.
 
 ---
 
-# ✅ Step-by-Step Guide (Screenshots Included in Each Step)
-
----
-
-# **Step 1 — Update & Upgrade**
+# **Step 1 — Update & Upgrade the Raspberry Pi**
 
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
 **Screenshot:**  
-![RPI2-01](./screenshots/PI2-01_Pi_UpdateAndUpgrade.png)
----
-
-# **Step 2 — Identify Attached Drives**
-
-Run:
-
-```bash
-lsblk -f
-```
-
-**Screenshot:**  
-![RPI2-02](./screenshots/RPI2-02_lsblk_List_Drives.png)
-
-If auto-mounted:
-
-**Screenshot:**  
-![RPI2-03](./screenshots/RPI2-03_lsblk_Mounted_Drives.png)
+![PI2-01](./screenshots/PI2-01_Pi_UpdateAndUpgrade.png)
 
 ---
 
-# **Step 3 — Configure Persistent Mounts (fstab)**
-
-## 3.1 Backup fstab
-
-```bash
-sudo cp /etc/fstab /etc/fstab.backup
-```
-
-**Screenshot:**  
-![RPI2-04](./screenshots/RPI2-04_Backup_fstab_Before_Edit.png)
-
----
-
-## 3.2 Edit fstab
-
-```bash
-sudo nano /etc/fstab
-```
-
-Add:
-
-```
-UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx  /media/pi/Primary1   ext4  defaults,uid=1000,gid=1000,umask=002  0 2
-UUID=yyyyyyyy-yyyy-yyyy-yyyy-yyyyyyyyyyyy  /media/pi/Secondary  ext4  defaults,uid=1000,gid=1000,umask=002  0 2
-UUID=zzzzzzzz-zzzz-zzzz-zzzz-zzzzzzzzzzzz  /media/pi/Videos     ext4  defaults,uid=1000,gid=1000,umask=002  0 2
-```
-
-**Screenshot:**  
-![RPI2-05](./screenshots/RPI2-05_Edit_fstab_With_Mount_Entries.png)
-
----
-
-## 3.3 Test mounts
-
-```bash
-sudo mount -a
-lsblk -f
-df -h | grep /media/pi
-```
-
-**Screenshot:**  
-![RPI2-06](./screenshots/RPI2-06_Mount_Test_Success.png)
-
----
-
-# **Step 4 — Set Folder Permissions**
-
-```bash
-sudo chown -R pi:pi /media/pi/Primary1
-sudo chmod -R 775 /media/pi/Primary1
-
-sudo chown -R pi:pi /media/pi/Secondary
-sudo chmod -R 775 /media/pi/Secondary
-
-sudo chown -R pi:pi /media/pi/Videos
-sudo chmod -R 775 /media/pi/Videos
-```
-
-**Screenshots:**  
-Primary1 → ![RPI2-07](./screenshots/RPI2-07_Apply_Permissions_Primary1.png)  
-Secondary + Videos → ![RPI2-08](./screenshots/RPI2-08_Apply_Permissions_Secondary_Videos.png)
-
----
-
-# **Step 5 — Install Samba**
+# **Step 2 — Install Samba**
 
 ```bash
 sudo apt install samba -y
 ```
 
 **Screenshot:**  
-![RPI2-09](./screenshots/RPI2-09_Install_Samba.png)
+![PI2-02](./screenshots/PI2-02_Pi_InstallSamba.png)
 
 ---
 
-# **Step 6 — Backup & Configure smb.conf**
+# **Step 3 — List All Drives (lsblk)**
 
-## 6.1 Backup:
+This confirms all connected external drives and their mount points.
 
 ```bash
-sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
+lsblk -f
 ```
 
 **Screenshot:**  
-![RPI2-10](./screenshots/RPI2-10_Backup_smb_conf.png)
+![PI2-03](./screenshots/PI2-03_Pi_ListDrives_lsblk.png)
 
 ---
 
-## 6.2 Edit smb.conf
+# **Step 4 — Apply Permissions to All Drives**
+
+Proper permissions allow Samba users to read/write to shares.
+
+```bash
+sudo chown -R pi:pi /media/pi/*
+sudo chmod -R 775 /media/pi/*
+```
+
+**Screenshot:**  
+![PI2-04](./screenshots/PI2-04_Pi_AllDrives_Permissions.png)
+
+---
+
+# **Step 5 — Edit smb.conf and Add All Shares**
+
+Open Samba config:
 
 ```bash
 sudo nano /etc/samba/smb.conf
 ```
 
-Add:
+Add share definitions for your drives:
 
 ```
 [Primary1]
    path = /media/pi/Primary1
    browseable = yes
    writable = yes
-   valid users = @smbusers
 
 [Secondary]
    path = /media/pi/Secondary
    browseable = yes
    writable = yes
-   valid users = @smbusers
 
 [Videos]
    path = /media/pi/Videos
    browseable = yes
    writable = yes
-   valid users = @smbusers
+
+[Temps]
+   path = /media/pi/Temps
+   browseable = yes
+   writable = yes
 ```
 
 **Screenshot:**  
-![RPI2-11](./screenshots/RPI2-11_Edit_smb_conf_Shares.png)
+![PI2-05](./screenshots/PI2-05_Pi_EditSmbConf_AllShares.png)
 
 ---
 
-# **Step 7 — Create Samba Group + User**
-
-```bash
-sudo groupadd smbusers
-sudo usermod -aG smbusers pi
-sudo smbpasswd -a pi
-```
-
-**Screenshot:**  
-![RPI2-13](./screenshots/RPI2-13_Create_Samba_User.png)
-
----
-
-# **Step 8 — Validate Samba Config**
-
-## 8.1 Test:
-
-```bash
-testparm
-```
-
-**Screenshot:**  
-![RPI2-12](./screenshots/RPI2-12_Testparm_No_Errors.png)
-
----
-
-## 8.2 Restart Samba
+# **Step 6 — Restart Samba Services**
 
 ```bash
 sudo systemctl restart smbd nmbd
@@ -197,90 +98,115 @@ sudo systemctl status smbd
 ```
 
 **Screenshot:**  
-![RPI2-14](./screenshots/RPI2-14_Restart_Samba_Services.png)
+![PI2-06](./screenshots/PI2-06_Pi_SambaService_Restart.png)
 
 ---
 
-# **Step 9 — Optional Firewall Rules**
+# **Step 7 — Create Samba User**
 
 ```bash
-sudo ufw allow samba
-sudo ufw status
+sudo smbpasswd -a pi
 ```
 
 **Screenshot:**  
-![RPI2-15](./screenshots/RPI2-15_Firewall_Allow_Samba_or_Skip.png)
+![PI2-07](./screenshots/PI2-07_Pi_CreateSambaUser.png)
 
 ---
 
-# **Step 10 — Connect from Windows**
+# **Step 8 — macOS Finder: View All Shares**
 
-Open **Run (Win+R)**:
+Using Finder → Go → Connect to Server:
 
 ```
-\\192.168.x.x
+smb://<your Pi IP>
 ```
 
 **Screenshot:**  
-![RPI2-16](./screenshots/RPI2-16_Windows_Run_SMB_Path.png)
+![PI2-08](./screenshots/PI2-08_Mac_Finder_AllShares.png)
 
-Enter credentials:
+---
+
+# **Step 9 — macOS Create Folder Tests (Write Permission Test)**
+
+These steps confirm macOS can write to each Samba share.
+
+### **Primary1**
+**Screenshot:**  
+![PI2-09](./screenshots/PI2-09_Mac_CreateFolder_Primary1.png)
+
+### **Secondary**
+**Screenshot:**  
+![PI2-10](./screenshots/PI2-10_Mac_CreateFolder_Secondary.png)
+
+### **Videos**
+**Screenshot:**  
+![PI2-11](./screenshots/PI2-11_Mac_CreateFolder_Videos.png)
+
+### **Temps**
+**Screenshot:**  
+![PI2-12](./screenshots/PI2-12_Mac_CreateFolder_Temps.png)
+
+---
+
+# **Step 10 — Windows 11: View All Shares**
+
+Open File Explorer → Address Bar:
+
+```
+\\<Pi-IP>
+```
 
 **Screenshot:**  
-![RPI2-17](./screenshots/RPI2-17_Windows_Enter_Network_Credentials.png)
+![PI2-12W](./screenshots/PI2-12_Windows11_AllShares.png)
 
-Open a share:
+---
+
+# **Step 11 — Raspberry Pi: Verify All macOS/Windows Folder Creations**
+
+```bash
+ls /media/pi/* -R
+```
 
 **Screenshot:**  
-![RPI2-18](./screenshots/RPI2-18_Windows_Share_Opened.png)
+![PI2-13P](./screenshots/PI2-13_Pi_Verify_AllShares_Folders.png)
 
 ---
 
-# **Step 11 — Connect from macOS**
+# **Step 12 — Windows Write Tests**
 
-Finder → Go → Connect to Server:
+These steps confirm Windows can create files/folders on each share.
 
-```
-smb://192.168.x.x
-```
+### **Primary1**
+**Screenshot:**  
+![PI2-13W](./screenshots/PI2-13_Windows11_WriteTest_Primary1.png)
 
-**Screenshots:**  
-Connect window → ![RPI2-19](./screenshots/RPI2-19_macOS_Connect_To_Server.png)  
-Mounted share in Finder → ![RPI2-20](./screenshots/RPI2-20_macOS_Share_Mounted_Finder.png)
+### **Pi verifying Windows write (Primary1)**
+**Screenshot:**  
+![PI2-14](./screenshots/PI2-14_Pi_Verify_WindowsWrite_Primary1.png)
 
----
+### **Secondary**
+**Screenshot:**  
+![PI2-15](./screenshots/PI2-15_Windows11_WriteTest_Secondary.png)
 
-# ✅ Verification Checklist
+### **Temps**
+**Screenshot:**  
+![PI2-16](./screenshots/PI2-16_Windows11_WriteTest_Temps.png)
 
-- Drives mount automatically via fstab  
-- Permissions set correctly  
-- Samba user created  
-- `testparm` shows no errors  
-- Windows/macOS clients can read/write  
-- All **20 screenshots** completed  
-
----
-
-# 🧹 Troubleshooting
-
-- Check Samba status:
-```bash
-sudo systemctl status smbd
-```
-
-- Verify mounts:
-```bash
-df -h | grep /media/pi
-```
-
-- Fix permissions:
-```bash
-sudo chown -R pi:pi /media/pi/*
-sudo chmod -R 775 /media/pi/*
-```
+### **Videos**
+**Screenshot:**  
+![PI2-17](./screenshots/PI2-17_Windows11_WriteTest_Videos.png)
 
 ---
 
-# 🎉 Lab Complete
-Your Raspberry Pi is now a functional Samba file server.
+# ✅ Summary
+
+You successfully:
+
+- Installed and configured Samba  
+- Added full read/write shares  
+- Verified macOS read/write functionality  
+- Verified Windows 11 read/write functionality  
+- Confirmed file creation from both OS types on the Pi  
+
+This Pi is now a fully working Samba file server.
 
